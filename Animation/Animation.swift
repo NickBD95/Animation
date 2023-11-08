@@ -11,26 +11,21 @@ struct Animation {
     
     var preset: String
     var curve: String
-    
     var force: Double
     var duration: Double
     var delay: Double
-    
-    static func getAnimations() -> [Animation] {
+        
+    static func getAnimation() -> Animation {
         let valuesData = ValuesData()
         
-        var array: [Animation] = []
-        
-        for item in 0..<valuesData.preset.count {
-            array.append(Animation(
-                preset: valuesData.preset[item],
-                curve: valuesData.curve[item],
-                force: valuesData.force[item],
-                duration: valuesData.duration[item],
-                delay: valuesData.delay[item])
-            )
-        }
-        return array
+        let animation = Animation(
+            preset: valuesData.preset.randomElement() ?? "empty preset",
+            curve: valuesData.curve.randomElement() ?? "empty curve",
+            force: valuesData.force.randomElement() ?? 0.0,
+            duration: valuesData.duration.randomElement() ?? 0.0,
+            delay: valuesData.delay.randomElement() ?? 0.0
+        )
+        return animation
     }
     
     static func getDefaultValues() -> Animation {

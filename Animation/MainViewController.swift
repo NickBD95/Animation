@@ -26,8 +26,10 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var runButton: SpringButton!
     
-    private let defaultAnimationValues = Animation.getDefaultValues()
-    private var animation = Animation.getAnimations()
+    private var defaultAnimationValues = Animation.getDefaultValues()
+    
+    private var copyOfModelActualAnimation: Animation!
+    private var copyOfModelNextAnimation: Animation!
     
     private var nameLabels: [SpringLabel] = []
     private var valueLabels: [SpringLabel] = []
@@ -42,40 +44,7 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func runButtonPressed() {
-        
-        switch counter {
-        case 0:
-            changeLabel()
-            presentViewAnimating()
-            labelAnimating()
-            changeButton(counter + 1)
-            counter += 1
-        case 1:
-            changeLabel()
-            presentViewAnimating()
-            labelAnimating()
-            changeButton(counter + 1)
-            counter += 1
-        case 2:
-            changeLabel()
-            presentViewAnimating()
-            labelAnimating()
-            changeButton(counter + 1)
-            counter += 1
-        case 3:
-            changeLabel()
-            presentViewAnimating()
-            labelAnimating()
-            changeButton(counter + 1)
-            counter += 1
-        default:
-            changeLabel()
-            presentViewAnimating()
-            labelAnimating()
-            animation.shuffle()
-            counter = 0
-            changeButton(counter)
-        }
+        changeAndAnimate()
     }
     
     private func startConditionView() {
@@ -85,45 +54,42 @@ class MainViewController: UIViewController {
         forceValueLabel.text = String(defaultAnimationValues.force)
         durationValueLabel.text = String(defaultAnimationValues.duration)
         delayValueLabel.text = String(defaultAnimationValues.delay)
-    }
-    
-    private func changeLabel() {
-        presetValueLabel.text = animation[counter].preset
-        curveValueLabel.text = animation[counter].curve
-        forceValueLabel.text = String(animation[counter].force)
-        durationValueLabel.text = String(animation[counter].duration)
-        delayValueLabel.text = String( animation[counter].delay)
-    }
-    
-    
-    private func changeButton(_ number: Int) {
-        runButton.setTitle(animation[number].preset, for: .normal)
-    }
-    
-    private func presentViewAnimating() {
-        presentView.animation = animation[counter].preset
-        presentView.curve = animation[counter].curve
-        presentView.force = animation[counter].force
-        presentView.duration = animation[counter].duration
-        presentView.delay = animation[counter].delay
         
+        copyOfModelActualAnimation = Animation.getAnimation()
+        copyOfModelActualAnimation = Animation.getAnimation()
+    }
+    
+    private func changeAndAnimate() {
+        
+        presetValueLabel.text = copyOfModelActualAnimation.preset
+        curveValueLabel.text = copyOfModelActualAnimation.curve
+        forceValueLabel.text = String(copyOfModelActualAnimation.force)
+        durationValueLabel.text = String(copyOfModelActualAnimation.duration)
+        delayValueLabel.text = String( copyOfModelActualAnimation.delay)
+        
+        presentView.animation = copyOfModelActualAnimation.preset
+        presentView.curve = copyOfModelActualAnimation.curve
+        presentView.force = copyOfModelActualAnimation.force
+        presentView.duration = copyOfModelActualAnimation.duration
+        presentView.delay = copyOfModelActualAnimation.delay
         presentView.animate()
-    }
-    
-    private func labelAnimating() {
         
-        var generalArray = nameLabels + valueLabels
+        let generalArray = nameLabels + valueLabels
         
         for label in generalArray {
-            label.animation = animation[counter].preset
-            label.curve = animation[counter].curve
-            label.force = animation[counter].force
-            label.duration = animation[counter].duration
-            label.delay = animation[counter].delay
-            
+            label.animation = copyOfModelActualAnimation.preset
+            label.curve = copyOfModelActualAnimation.curve
+            label.force = copyOfModelActualAnimation.force
+            label.duration = copyOfModelActualAnimation.duration
+            label.delay = copyOfModelActualAnimation.delay
             label.animate()
         }
         
+        let newModel = Animation.getAnimation()
+        
+        copyOfModelNextAnimation = newModel
+        runButton.setTitle(copyOfModelNextAnimation.preset, for: .normal)
+        copyOfModelActualAnimation = copyOfModelNextAnimation
     }
 }
 
