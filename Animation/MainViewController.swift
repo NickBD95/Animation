@@ -36,10 +36,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        nameLabels = [presetNameLabel, curveNameLable, forceNameLabel, durationNameLabel,delayNameLabel]
-        valueLabels = [presetValueLabel, curveValueLabel, forceValueLabel, durationValueLabel,delayValueLabel]
+        nameLabels = [presetNameLabel, curveNameLable, forceNameLabel, durationNameLabel, delayNameLabel]
+        valueLabels = [presetValueLabel, curveValueLabel, forceValueLabel, durationValueLabel, delayValueLabel]
         startConditionView()
-        }
+    }
     
     @IBAction func runButtonPressed() {
         
@@ -85,8 +85,8 @@ class MainViewController: UIViewController {
         forceValueLabel.text = String(defaultAnimationValues.force)
         durationValueLabel.text = String(defaultAnimationValues.duration)
         delayValueLabel.text = String(defaultAnimationValues.delay)
-        }
-        
+    }
+    
     private func changeLabel() {
         presetValueLabel.text = animation[counter].preset
         curveValueLabel.text = animation[counter].curve
@@ -94,8 +94,8 @@ class MainViewController: UIViewController {
         durationValueLabel.text = String(animation[counter].duration)
         delayValueLabel.text = String( animation[counter].delay)
     }
-   
-
+    
+    
     private func changeButton(_ number: Int) {
         runButton.setTitle(animation[number].preset, for: .normal)
     }
@@ -112,7 +112,9 @@ class MainViewController: UIViewController {
     
     private func labelAnimating() {
         
-        for label in nameLabels {
+        var generalArray = nameLabels + valueLabels
+        
+        for label in generalArray {
             label.animation = animation[counter].preset
             label.curve = animation[counter].curve
             label.force = animation[counter].force
@@ -122,16 +124,8 @@ class MainViewController: UIViewController {
             label.animate()
         }
         
-        for label in valueLabels {
-            label.animation = animation[counter].preset
-            label.curve = animation[counter].curve
-            label.force = animation[counter].force
-            label.duration = animation[counter].duration
-            label.delay = animation[counter].delay
-            
-            label.animate()
-        }
     }
 }
+
 
 
